@@ -117,3 +117,39 @@ fi
 
 echo ""
 echo "👋 Done. Run ./awake.sh again anytime."
+
+==================== README ====================
+
+🔥 WHAT THIS TOOL DOES
+
+1) SSH KEEPALIVE MODE
+- Prevents SSH disconnects
+- Sends heartbeat every 60 seconds
+- Allows ~20 min idle tolerance
+
+2) TMUX MODE
+- Keeps sessions alive even if SSH drops
+- Ideal for long-running tasks
+
+KEY COMMANDS:
+
+Detach tmux:
+CTRL + B then D
+
+Reattach:
+tmux attach
+
+List sessions:
+tmux ls
+
+Kill session:
+tmux kill-session -t name
+
+================================================
+
+EOF
+
+fi
+
+echo ""
+echo "👋 Done. Run ./awake.sh again anytime."
