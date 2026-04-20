@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 clear
@@ -24,12 +25,10 @@ if [ "$opt" == "1" ]; then
     echo "🔧 Configuring SSH keep-alive..."
 
     mkdir -p ~/.ssh
-
     CONFIG_FILE="$HOME/.ssh/config"
-
     touch "$CONFIG_FILE"
 
-    grep -q "ServerAliveInterval" "$CONFIG_FILE" || cat >> "$CONFIG_FILE" <<EOF
+    cat >> "$CONFIG_FILE" <<EOF
 
 Host *
     ServerAliveInterval 60
@@ -40,7 +39,6 @@ EOF
     echo "✅ Done!"
     echo "👉 SSH will now stay alive ~20 minutes of inactivity tolerance"
     echo "👉 Active connection = stays alive indefinitely"
-    echo ""
 fi
 
 # -------------------------------------
@@ -56,34 +54,24 @@ if [ "$opt" == "2" ]; then
     echo ""
     echo "✅ tmux installed!"
 
-    echo ""
-    read -p "Do you want to start a tmux session now? (y/n): " tstart
+    read -p "Start tmux session now? (y/n): " tstart
 
     if [ "$tstart" == "y" ]; then
-        echo ""
-        read -p "Enter session name (or press enter for 'work'): " sname
-
-        if [ -z "$sname" ]; then
-            sname="work"
-        fi
+        read -p "Session name (default: work): " sname
+        sname=${sname:-work}
 
         tmux new-session -d -s "$sname"
 
-        echo ""
-        echo "🚀 tmux session '$sname' started in background"
+        echo "🚀 Session '$sname' started"
 
-        echo ""
-        read -p "Do you want to run a command inside it? (y/n): " rcmd
-
+        read -p "Run a command inside tmux? (y/n): " rcmd
         if [ "$rcmd" == "y" ]; then
-            read -p "Enter command to run: " cmd
+            read -p "Enter command: " cmd
             tmux send-keys -t "$sname" "$cmd" C-m
-            echo "✅ Command sent to tmux session"
         fi
 
         echo ""
-        echo "👉 To attach later use:"
-        echo "tmux attach -t $sname"
+        echo "👉 Attach with: tmux attach -t $sname"
     fi
 fi
 
@@ -91,5 +79,41 @@ fi
 # OPTION 3 - README
 # -------------------------------------
 if [ "$opt" == "3" ]; then
-    echo ""
-    cat <<EOF
+
+cat <<EOF
+
+==================== README ====================
+
+🔥 WHAT THIS TOOL DOES
+
+1) SSH KEEPALIVE MODE
+- Prevents SSH disconnects
+- Sends heartbeat every 60 seconds
+- Allows ~20 min idle tolerance
+
+2) TMUX MODE
+- Keeps sessions alive even if SSH drops
+- Ideal for long-running tasks
+
+KEY COMMANDS:
+
+Detach tmux:
+CTRL + B then D
+
+Reattach:
+tmux attach
+
+List sessions:
+tmux ls
+
+Kill session:
+tmux kill-session -t name
+
+================================================
+
+EOF
+
+fi
+
+echo ""
+echo "👋 Done. Run ./awake.sh again anytime."
