@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 clear
@@ -17,9 +16,7 @@ echo ""
 
 read -p "Enter option (1-4): " opt
 
-# -------------------------------------
-# OPTION 1 - SSH KEEPALIVE
-# -------------------------------------
+# OPTION 1
 if [ "$opt" == "1" ]; then
     echo ""
     echo "🔧 Configuring SSH keep-alive..."
@@ -28,22 +25,19 @@ if [ "$opt" == "1" ]; then
     CONFIG_FILE="$HOME/.ssh/config"
     touch "$CONFIG_FILE"
 
-    cat >> "$CONFIG_FILE" <<EOF
-
-Host *
-    ServerAliveInterval 60
-    ServerAliveCountMax 20
-EOF
+    grep -q "ServerAliveInterval" "$CONFIG_FILE" || {
+        echo "" >> "$CONFIG_FILE"
+        echo "Host *" >> "$CONFIG_FILE"
+        echo "    ServerAliveInterval 60" >> "$CONFIG_FILE"
+        echo "    ServerAliveCountMax 20" >> "$CONFIG_FILE"
+    }
 
     echo ""
     echo "✅ Done!"
-    echo "👉 SSH will now stay alive ~20 minutes of inactivity tolerance"
-    echo "👉 Active connection = stays alive indefinitely"
+    echo "👉 SSH will now stay alive ~20 minutes tolerance"
 fi
 
-# -------------------------------------
-# OPTION 2 - TMUX INSTALL + SETUP
-# -------------------------------------
+# OPTION 2
 if [ "$opt" == "2" ]; then
     echo ""
     echo "📦 Installing tmux..."
@@ -61,7 +55,6 @@ if [ "$opt" == "2" ]; then
         sname=${sname:-work}
 
         tmux new-session -d -s "$sname"
-
         echo "🚀 Session '$sname' started"
 
         read -p "Run a command inside tmux? (y/n): " rcmd
@@ -70,49 +63,29 @@ if [ "$opt" == "2" ]; then
             tmux send-keys -t "$sname" "$cmd" C-m
         fi
 
-        echo ""
         echo "👉 Attach with: tmux attach -t $sname"
     fi
 fi
 
-# -------------------------------------
-# OPTION 3 - README
-# -------------------------------------
-if [ "$opt" == "3" ]; then
-
-cat <<EOF
-
+# OPTION 3
 if [ "$opt" == "3" ]; then
     echo ""
     echo "==================== README ===================="
     echo ""
-    echo "🔥 WHAT THIS TOOL DOES"
+    echo "1) SSH KEEPALIVE"
+    echo "- Prevents disconnects"
+    echo "- 20 min tolerance"
     echo ""
-    echo "1) SSH KEEPALIVE MODE"
-    echo "- Prevents SSH disconnects"
-    echo "- Sends heartbeat every 60 seconds"
-    echo "- Allows ~20 min idle tolerance"
+    echo "2) TMUX"
+    echo "- Keeps sessions alive"
+    echo "- Works even if SSH drops"
     echo ""
-    echo "2) TMUX MODE"
-    echo "- Keeps sessions alive even if SSH drops"
-    echo "- Ideal for long-running tasks"
-    echo ""
-    echo "KEY COMMANDS:"
-    echo ""
-    echo "Detach tmux:"
-    echo "CTRL + B then D"
-    echo ""
-    echo "Reattach:"
+    echo "Commands:"
     echo "tmux attach"
-    echo ""
-    echo "List sessions:"
     echo "tmux ls"
-    echo ""
-    echo "Kill session:"
     echo "tmux kill-session -t name"
-    echo ""
     echo "================================================"
 fi
 
 echo ""
-echo "👋 Done. Run ./awake.sh again anytime."
+echo "👋 Done."
