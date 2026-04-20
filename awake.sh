@@ -82,73 +82,36 @@ if [ "$opt" == "3" ]; then
 
 cat <<EOF
 
-==================== README ====================
-
-🔥 WHAT THIS TOOL DOES
-
-1) SSH KEEPALIVE MODE
-- Prevents SSH disconnects
-- Sends heartbeat every 60 seconds
-- Allows ~20 min idle tolerance
-
-2) TMUX MODE
-- Keeps sessions alive even if SSH drops
-- Ideal for long-running tasks
-
-KEY COMMANDS:
-
-Detach tmux:
-CTRL + B then D
-
-Reattach:
-tmux attach
-
-List sessions:
-tmux ls
-
-Kill session:
-tmux kill-session -t name
-
-================================================
-
-EOF
-
-fi
-
-echo ""
-echo "👋 Done. Run ./awake.sh again anytime."
-
-==================== README ====================
-
-🔥 WHAT THIS TOOL DOES
-
-1) SSH KEEPALIVE MODE
-- Prevents SSH disconnects
-- Sends heartbeat every 60 seconds
-- Allows ~20 min idle tolerance
-
-2) TMUX MODE
-- Keeps sessions alive even if SSH drops
-- Ideal for long-running tasks
-
-KEY COMMANDS:
-
-Detach tmux:
-CTRL + B then D
-
-Reattach:
-tmux attach
-
-List sessions:
-tmux ls
-
-Kill session:
-tmux kill-session -t name
-
-================================================
-
-EOF
-
+if [ "$opt" == "3" ]; then
+    echo ""
+    echo "==================== README ===================="
+    echo ""
+    echo "🔥 WHAT THIS TOOL DOES"
+    echo ""
+    echo "1) SSH KEEPALIVE MODE"
+    echo "- Prevents SSH disconnects"
+    echo "- Sends heartbeat every 60 seconds"
+    echo "- Allows ~20 min idle tolerance"
+    echo ""
+    echo "2) TMUX MODE"
+    echo "- Keeps sessions alive even if SSH drops"
+    echo "- Ideal for long-running tasks"
+    echo ""
+    echo "KEY COMMANDS:"
+    echo ""
+    echo "Detach tmux:"
+    echo "CTRL + B then D"
+    echo ""
+    echo "Reattach:"
+    echo "tmux attach"
+    echo ""
+    echo "List sessions:"
+    echo "tmux ls"
+    echo ""
+    echo "Kill session:"
+    echo "tmux kill-session -t name"
+    echo ""
+    echo "================================================"
 fi
 
 echo ""
